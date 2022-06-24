@@ -19,6 +19,11 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
+        chooseMode();
+    }
+
+    // Main driver method
+    public static void chooseMode() {
 
         // prints out the description of difficulty levels and their respective description
         String[] difficulty = {
@@ -56,31 +61,13 @@ public class Main {
 
     }
 
-    // helper method: return a system-generated random number
-    public static int generateRandomNumber(int i, int j) {
-
-        try {
-            Random rand = new Random();
-            if (j >= i) {
-                int n = rand.nextInt(j+1-i) + i;
-                return n;
-            } else {
-                System.err.println("It seems like upper bound is lower than the lower bound. Please try again.");
-                System.exit(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
-        return -1;
-        
-    }
-
     // 1. Easy: program will tell you if it was higher or equal (you win) or lower (computer wins) than the program's number.
     public static void easyMode() {
 
         System.out.println("========== You are playing an easy mode ==========");
-        try {
 
+        try {
+            
             Scanner lowerBound = new Scanner(System.in);
             System.out.println("Please enter a lower bound for the number that the system can generate: ");
 
@@ -265,6 +252,26 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
+        
+    }
+
+
+    // helper method: return a system-generated random number
+    public static int generateRandomNumber(int i, int j) {
+
+        try {
+            Random rand = new Random();
+            if (j >= i) {
+                int n = rand.nextInt(j+1-i) + i;
+                return n;
+            } else {
+                System.err.println("It seems like upper bound is lower than the lower bound. Please try again.");
+                System.exit(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return -1;
         
     }
 
