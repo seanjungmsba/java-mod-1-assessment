@@ -3,13 +3,16 @@ The system must ask the user for an integer between 0 and 10.
 The system must generate a random number between 0 and 10.
 If the user's number is greater than the system's generated number, then the user wins.
 Otherwise, the system wins.
+
 The system must inform the user who won.
 The system must display an error message if the user's input is not in the desired range.
 The system must display an error message if the user's input is not a number.
+
 Let the user choose game "level" - tell the user what each level means:
-Easy: program will tell you if it was higher or equal (you win) or lower (computer wins) than the program's number.
-Medium: program will tell you if it was strictly higher (you win) or lower or equal (computer wins) than the program's number.
-Hard: program will tell you if it was equal (you win) or not (you lose) to the program's number.
+    Easy: program will tell you if it was higher or equal (you win) or lower (computer wins) than the program's number.
+    Medium: program will tell you if it was strictly higher (you win) or lower or equal (computer wins) than the program's number.
+    Hard: program will tell you if it was equal (you win) or not (you lose) to the program's number.
+
 Store each game level “explanation message” in an array and use the level indicated by the user to index into the array.
 */
 
@@ -18,8 +21,20 @@ import java.util.Random;
 
 public class Main {
 
+    // instance variables
+    static int systemRandomNumber;
+    static int userRandomNumber;
+    static Scanner reader;
+
+    // main method
     public static void main(String[] args) {
-        chooseMode();
+        try {
+            reader = new Scanner(System.in);
+            chooseMode();
+            reader.close();
+        }  catch (Exception e) {
+            System.err.println("you messed up");
+        }
     }
 
     // Main driver method
@@ -37,9 +52,8 @@ public class Main {
 
         // lets user select which difficult mode in which an user wants to play
         try {
-            Scanner scn = new Scanner(System.in);
-            if (scn.hasNextInt()) {
-                int level = scn.nextInt();
+            if (reader.hasNextInt()) {
+                int level = reader.nextInt();
                 if (level == 1) {
                     easyMode();
                 } else if (level == 2) {
@@ -54,7 +68,6 @@ public class Main {
                 System.err.println("ERROR: Enter the valid value.");
                 System.exit(1);
             }
-            scn.close();
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
@@ -65,196 +78,100 @@ public class Main {
     public static void easyMode() {
 
         System.out.println("========== You are playing an easy mode ==========");
+        getSystemInput();
+        getUserInput();
 
-        try {
-            
-            Scanner lowerBound = new Scanner(System.in);
-            System.out.println("Please enter a lower bound for the number that the system can generate: ");
-
-            if (!lowerBound.hasNextInt()) {
-                System.err.println("ERROR: You did not enter the integer value. Please try again.");
-                System.exit(1);
-            }
-
-            Scanner upperBound = new Scanner(System.in);
-            System.out.println("Now please define a upper bound: ");
-
-            if (!upperBound.hasNextInt()) {
-                System.err.println("ERROR: You did not enter the integer value. Please try again.");
-                System.exit(1);
-            }
-
-            int lowerBoundNum = lowerBound.nextInt();
-            int upperBoundNum = upperBound.nextInt();
-
-            int systemRandomNumber = generateRandomNumber(lowerBoundNum, upperBoundNum);
-            System.out.println("================");
-            System.out.println("System has generated the random number between " + lowerBoundNum + " and " + upperBoundNum);
-            System.out.println("================");
-
-            System.out.println("Now it is your turn to generate the number between defined ranges");
-            Scanner userInput = new Scanner(System.in);
-
-            if (!userInput.hasNextInt()) {
-                System.err.println("ERROR: You did not enter the integer value. Please try again.");
-                System.exit(1);
-            }
-
-            int userRandomNumber = userInput.nextInt();
-
-            if (userRandomNumber < lowerBoundNum || userRandomNumber > upperBoundNum) {
-                System.err.println("ERROR: You did not enter the value in the defined range. Please try again");
-                System.exit(1);
-            }
-
-            if (systemRandomNumber > userRandomNumber) {
-                System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
-                System.out.println("Since the system has the higher number than your number, SYSTEM WON this time.");
-            } else {
-                System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
-                System.out.println("Since you have the number that is higher than or equal to number generated by the system, YOU WON this time.");
-            }
-
-            lowerBound.close();
-            upperBound.close();
-            userInput.close();
-
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
+        if (systemRandomNumber > userRandomNumber) {
+            System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
+            System.out.println("Since the system has the higher number than your number, SYSTEM WON this time.");
+        } else {
+            System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
+            System.out.println("Since you have the number that is higher than or equal to number generated by the system, YOU WON this time.");
         }
 
     }
-
 
     // 2. Medium: program will tell you if it was strictly higher (you win) or lower than or equal to (computer wins) the program's number.
     public static void mediumMode() {
 
         System.out.println("========== You are playing a medium mode ==========");
+        getSystemInput();
+        getUserInput(); 
 
-        try {
-
-            Scanner lowerBound = new Scanner(System.in);
-            System.out.println("Please enter a lower bound for the number that the system can generate: ");
-
-            if (!lowerBound.hasNextInt()) {
-                System.err.println("ERROR: You did not enter the integer value. Please try again.");
-                System.exit(1);
-            }
-
-            Scanner upperBound = new Scanner(System.in);
-            System.out.println("Now please define a upper bound: ");
-
-            if (!upperBound.hasNextInt()) {
-                System.err.println("ERROR: You did not enter the integer value. Please try again.");
-                System.exit(1);
-            }
-
-            int lowerBoundNum = lowerBound.nextInt();
-            int upperBoundNum = upperBound.nextInt();
-
-            int systemRandomNumber = generateRandomNumber(lowerBoundNum, upperBoundNum);
-            System.out.println("================");
-            System.out.println("System has generated the random number between " + lowerBoundNum + " and " + upperBoundNum);
-            System.out.println("================");
-
-            System.out.println("Now it is your turn to generate the number between defined ranges");
-            Scanner userInput = new Scanner(System.in);
-
-            if (!userInput.hasNextInt()) {
-                System.err.println("ERROR: You did not enter the integer value. Please try again.");
-                System.exit(1);
-            }
-
-            int userRandomNumber = userInput.nextInt();
-
-            if (userRandomNumber < lowerBoundNum || userRandomNumber > upperBoundNum) {
-                System.err.println("ERROR: You did not enter the value in the defined range. Please try again");
-                System.exit(1);
-            }       
-
-            if (systemRandomNumber >= userRandomNumber) {
-                System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
-                System.out.println("Since the system has the number that is higher than or equal to your number, SYSTEM WON this time.");
-            } else {
-                System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
-                System.out.println("Since you have the number that is strictly higher than the number generated by the system, YOU WON this time.");
-            }
-
-            lowerBound.close();
-            upperBound.close();
-            userInput.close();
-
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
+        if (systemRandomNumber >= userRandomNumber) {
+            System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
+            System.out.println("Since the system has the number that is higher than or equal to your number, SYSTEM WON this time.");
+        } else {
+            System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
+            System.out.println("Since you have the number that is strictly higher than the number generated by the system, YOU WON this time.");
         }
-
     }
-
 
     // 3. Hard: program will tell you if it was equal (you win) or not (you lose) to the program's number.
     public static void hardMode() {
 
         System.out.println("========== You are playing a hard mode ==========");
-        
+        getSystemInput();
+        getUserInput();
+
+        if (systemRandomNumber == userRandomNumber) {
+            System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
+            System.out.println("The system has the same number than your number, YOU WON this time.");
+        } else {
+            System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
+            System.out.println("You have the number that is different than the number generated by the system, SYSTEM WON this time.");
+        }
+    }
+
+    // helper method: get input from the system
+    public static void getSystemInput() {
+
         try {
 
-            Scanner lowerBound = new Scanner(System.in);
             System.out.println("Please enter a lower bound for the number that the system can generate: ");
 
-            if (!lowerBound.hasNextInt()) {
+            if (!reader.hasNextInt()) {
                 System.err.println("ERROR: You did not enter the integer value. Please try again.");
                 System.exit(1);
             }
+            int lowerBoundNum = reader.nextInt();   
 
-            Scanner upperBound = new Scanner(System.in);
             System.out.println("Now please define a upper bound: ");
 
-            if (!upperBound.hasNextInt()) {
+            if (!reader.hasNextInt()) {
                 System.err.println("ERROR: You did not enter the integer value. Please try again.");
                 System.exit(1);
             }
+    
+            int upperBoundNum = reader.nextInt();
 
-            int lowerBoundNum = lowerBound.nextInt();
-            int upperBoundNum = upperBound.nextInt();
-
-            int systemRandomNumber = generateRandomNumber(lowerBoundNum, upperBoundNum);
+            systemRandomNumber = generateRandomNumber(lowerBoundNum, upperBoundNum);
             System.out.println("================");
             System.out.println("System has generated the random number between " + lowerBoundNum + " and " + upperBoundNum);
             System.out.println("================");
 
-            System.out.println("Now it is your turn to generate the number between defined ranges");
-            Scanner userInput = new Scanner(System.in);
+        } catch (Exception e) {
+            System.err.println("ERROR: Something went wrong. Please try again.");
+        }
 
-            if (!userInput.hasNextInt()) {
+    }
+
+    // helper method: get input from an user
+    public static void getUserInput() {
+
+        try {
+            System.out.println("Now it is your turn to generate the number between defined ranges");
+            if (!reader.hasNextInt()) {
                 System.err.println("ERROR: You did not enter the integer value. Please try again.");
                 System.exit(1);
             }
-
-            int userRandomNumber = userInput.nextInt();
-
-            if (userRandomNumber < lowerBoundNum || userRandomNumber > upperBoundNum) {
-                System.err.println("ERROR: You did not enter the value in the defined range. Please try again");
-                System.exit(1);
-            }
-
-            if (systemRandomNumber == userRandomNumber) {
-                System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
-                System.out.println("The system has the same number than your number, YOU WON this time.");
-            } else {
-                System.out.println("System generated " + systemRandomNumber + " and you entered " + userRandomNumber + ".");
-                System.out.println("You have the number that is different than the number generated by the system, SYSTEM WON this time.");
-            }
-
-            lowerBound.close();
-            upperBound.close();
-            userInput.close();
+            userRandomNumber = reader.nextInt();
 
         } catch (Exception e) {
-            e.printStackTrace(System.out);
+            System.err.println("ERROR: Something went wrong. Please try again.");
         }
-        
-    }
 
+    }
 
     // helper method: return a system-generated random number
     public static int generateRandomNumber(int i, int j) {
