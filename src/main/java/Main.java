@@ -51,6 +51,7 @@ public class Main {
             System.out.println(s);
 
         // lets user select which difficult mode in which an user wants to play
+        // Improvement: have more robust input system where user can select difficulty using words such as easy, medium, hard
         try {
             if (reader.hasNextInt()) {
                 int level = reader.nextInt();
@@ -78,6 +79,7 @@ public class Main {
     public static void easyMode() {
 
         System.out.println("========== You are playing an easy mode ==========");
+        // instead of calling these methods two more times, I can modify the control flow to reduce the number of methods
         getSystemInput();
         getUserInput();
 
@@ -183,7 +185,7 @@ public class Main {
                 return n;
             } else {
                 System.err.println("It seems like upper bound is lower than the lower bound. Please try again.");
-                System.exit(1);
+                System.exit(1); // rather than killing a program, it can keep prompting the user to enter a valid input
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
